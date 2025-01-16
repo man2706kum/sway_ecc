@@ -177,6 +177,37 @@ impl G1Point {
     }
 }
 
+fn check_point_belongs_to_bn128_curve(p: G1Point) -> bool {
+
+    let QF: u256 = 0x30644E72E131A029B85045B68181585D97816A916871CA8D3C208C16D87CFD47u256;
+
+    let mut res: u256 = 0;
+    // y^2 mod QF
+    asm(rA: res, rB: p.y, rC: p.y, rD: QF) {
+        wqmm rA rB rC rD;
+    }
+
+    let mut x_square: u256 = 0;
+    // x^2 mod QF
+    asm(rA: x_square, rB: p.x, rC: p.x, rD: QF) {
+        wqmm rA rB rC rD;
+    }
+
+    let mut x_cubed: u256 = 0;
+    // x^3 mod QF
+    asm(rA: x_cubed, rB: x_square, rC: p.x, rD: QF) {
+        wqmm rA rB rC rD;
+    }
+
+    // x^3 + 3 mod QF
+    let mut res_x: u256 = 0;
+    asm(rA: res_x, rB: x_cubed, rC: 0x3u256, rD: QF) {
+        wqam rA rB rC rD;
+    }
+    
+    res_x == res
+}
+
 
 // from rust arkworks
 // g1: (1, 2)
@@ -228,4 +259,14 @@ fn test_pairing() {
 
     let result = G1Point::pairing(g1, g2);
     assert(result != 1);
+}
+
+#[test]
+fn test_check_point_belongs_to_bn128_curve() {
+    let p = G1Point{
+        x: 0x9D3A257B99F1AD804A9E2354EA71C72DA7FA518F4CA7904C6951D924B4045B4u256,
+        y: 0x174BE12AE3FD899D55D3E487FA103F951A24CA0F670ECAE802209B2518CCCA6Cu256
+    };
+    let res = check_point_belongs_to_bn128_curve(p);
+    assert(res == true);
 }
