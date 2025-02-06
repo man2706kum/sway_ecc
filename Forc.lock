@@ -1,20 +1,20 @@
 [[package]]
 name = "core"
-source = "git+https://github.com/FuelLabs/sway?rev#c681835d4427b8c36d9f340c8d4340aaa03591e6"
+source = "git+https://github.com/FuelLabs/sway?branch=master#5ed7cec6dbcd42f0c2f84df8511a4c0007b1902e"
 
 [[package]]
 name = "core"
-source = "path+from-root-A4E535DF2C0938B1"
+source = "path+from-root-25F44FD553201116"
 
 [[package]]
 name = "ecc"
 source = "member"
 dependencies = [
-    "core git+https://github.com/FuelLabs/sway?rev#c681835d4427b8c36d9f340c8d4340aaa03591e6",
+    "core git+https://github.com/FuelLabs/sway?branch=master#5ed7cec6dbcd42f0c2f84df8511a4c0007b1902e",
     "std",
 ]
 
 [[package]]
 name = "std"
-source = "git+https://github.com/FuelLabs/sway?rev#c681835d4427b8c36d9f340c8d4340aaa03591e6"
-dependencies = ["core path+from-root-A4E535DF2C0938B1"]
+source = "git+https://github.com/FuelLabs/sway?branch=master#5ed7cec6dbcd42f0c2f84df8511a4c0007b1902e"
+dependencies = ["core path+from-root-25F44FD553201116"]
